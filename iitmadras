@@ -27,7 +27,7 @@
     <p>If you are not redirected automatically, click below.</p>
 
     <!-- REPLACE DEST_URL below with your external URL (include UTM parameters if desired) -->
-    <p><a id="goLink" class="btn" href="https://www.happiesthealth.com/web-stories/eat-less-carbs-and-flex-more-muscles-to-beat-diabetes?utm_source=pomplet&utm_medium=print&utm_campaign=dtp_bcp">Continue</a></p>
+    <p><a id="goLink" class="btn" href="https://www.happiesthealth.com/articles/infectious-diseases/rapid-antibiotic-susceptibility-testing-antimicrobial-resistance?utm_source=pomplet&utm_medium=print&utm_campaign=dtp_bcp">Continue</a></p>
     <p><small>This redirect URL is permanent — use it inside a QR code.</small></p>
   </div>
 
