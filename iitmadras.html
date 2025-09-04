@@ -40,7 +40,7 @@
     } catch(e){/* ignore*/}
 
     // Small delay so GA can send the hit, then redirect
-    const DELAY = 700; // milliseconds (you can increase to 1000)
+    const DELAY = 100; // milliseconds (you can increase to 1000)
     setTimeout(function(){ window.location.replace(DEST); }, DELAY);
   </script>
 
