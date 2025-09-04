@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Redirecting…</title>
+
+  <!-- Google tag (gtag.js) - replace the ID below with your actual GA Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GZSPR40F6T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GZSPR40F6T', { 'send_page_view': true });
+  </script>
+
+  <style>
+    body{font-family:Segoe UI,Roboto,Arial;padding:36px;background:#f8fafc;color:#0f172a}
+    .box{max-width:720px;margin:24px auto;padding:20px;background:#fff;border-radius:8px;border:1px solid #e6eef6;text-align:center}
+    a.btn{display:inline-block;padding:10px 14px;background:#2563eb;color:white;border-radius:6px;text-decoration:none}
+    small{color:#475569}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Hang on — redirecting you…</h2>
+    <p>If you are not redirected automatically, click below.</p>
+
+    <!-- REPLACE DEST_URL below with your external URL (include UTM parameters if desired) -->
+    <p><a id="goLink" class="btn" href="https://www.happiesthealth.com/web-stories/eat-less-carbs-and-flex-more-muscles-to-beat-diabetes?utm_source=pomplet&utm_medium=brochure&utm_campaign=dtpbcp">Continue</a></p>
+    <p><small>This redirect URL is permanent — use it inside a QR code.</small></p>
+  </div>
+
+<script>
+  const DEST = document.getElementById('goLink').href;
+
+  try {
+    gtag('event', 'qr_redirect', {
+      'event_label': 'eatlesscarbs',  // ✅ Optional human-friendly name
+      'event_category': 'QR',       // ✅ Optional, good for grouping in GA
+      'qr_destination': DEST        // ✅ Critical for separating by URL
+    });
+  } catch(e) { /* ignore */ }
+
+  const DELAY = 100; // Keep small so redirect is fast
+  setTimeout(function() {
+    window.location.replace(DEST);
+  }, DELAY);
+</script>
+
+
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=DEST_URL">
+  </noscript>
+</body>
+</html>
