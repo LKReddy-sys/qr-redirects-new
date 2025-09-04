@@ -31,18 +31,22 @@
     <p><small>This redirect URL is permanent — use it inside a QR code.</small></p>
   </div>
 
-  <script>
-    const DEST = document.getElementById('goLink').href;
+<script>
+  const DEST = document.getElementById('goLink').href;
 
-    // Optional: send a custom event so it's easy to filter/search in GA
-    try {
-      gtag('event', 'qr_redirect', { 'event_label': 'hhhomepage', 'event_category': 'QR', 'qr_destination': DEST });
-    } catch(e){/* ignore*/}
+  try {
+    gtag('event', 'qr_redirect', {
+      'event_label': 'hhhomepage',  // ✅ Optional human-friendly name
+      'event_category': 'QR',       // ✅ Optional, good for grouping in GA
+      'qr_destination': DEST        // ✅ Critical for separating by URL
+    });
+  } catch(e) { /* ignore */ }
 
-    // Small delay so GA can send the hit, then redirect
-    const DELAY = 100; // milliseconds (you can increase to 1000)
-    setTimeout(function(){ window.location.replace(DEST); }, DELAY);
-  </script>
+  const DELAY = 100; // Keep small so redirect is fast
+  setTimeout(function() {
+    window.location.replace(DEST);
+  }, DELAY);
+</script>
 
   <noscript>
     <meta http-equiv="refresh" content="0; url=DEST_URL">
