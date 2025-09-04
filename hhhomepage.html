@@ -36,7 +36,7 @@
 
     // Optional: send a custom event so it's easy to filter/search in GA
     try {
-      gtag('event', 'qr_redirect', { 'event_label': hhhomepage, 'event_category': 'QR', 'qr_destination': DEST });
+      gtag('event', 'qr_redirect', { 'event_label': 'hhhomepage', 'event_category': 'QR', 'qr_destination': DEST });
     } catch(e){/* ignore*/}
 
     // Small delay so GA can send the hit, then redirect
