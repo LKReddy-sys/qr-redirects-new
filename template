@@ -35,7 +35,7 @@
 
   try {
     gtag('event', 'qr_redirect', {
-      'event_label': 'hhhomepage',  // ✅ Optional human-friendly name (event_label has to change for GA tracking)
+      'event_label': 'uniquename',  // ✅ Human-friendly name (event_label has to change for GA tracking)
       'event_category': 'QR',       // ✅ Optional, good for grouping in GA
       'qr_destination': DEST        // ✅ Critical for separating by URL
     });
