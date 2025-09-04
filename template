@@ -36,8 +36,8 @@
 
     // Send an explicit event to GA (optional) before redirecting
     try {
-      // send event; GA will also record a page_view automatically
-      gtag('event', 'qr_redirect', { 'event_label': DEST, 'event_category': 'QR' });
+      // send event; GA will also record a page_view automatically, important change the 'event_lavel': DEST to 'event_label': give unique name
+      gtag('event', 'qr_redirect', { 'event_label': DEST, 'event_category': 'QR', 'qr_destination': DEST });
     } catch(e){ /* ignore if gtag not ready */ }
 
     // Wait a short time to give GA a moment to send data, then redirect
