@@ -42,7 +42,7 @@
 
     // Wait a short time to give GA a moment to send data, then redirect
     // 600-900ms is usually enough; increase if you want more safety.
-    const REDIRECT_DELAY_MS = 700;
+    const REDIRECT_DELAY_MS = 100;
     setTimeout(function(){ window.location.replace(DEST); }, REDIRECT_DELAY_MS);
   </script>
 
