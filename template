@@ -31,20 +31,22 @@
   </div>
 
   <script>
-    // Destination URL is embedded directly in the link above.
-    const DEST = document.getElementById('goLink').href;
+  const DEST = document.getElementById('goLink').href;
 
-    // Send an explicit event to GA (optional) before redirecting
-    try {
-      // send event; GA will also record a page_view automatically, important change the 'event_lavel': DEST to 'event_label': give unique name
-      gtag('event', 'qr_redirect', { 'event_label': DEST, 'event_category': 'QR', 'qr_destination': DEST });
-    } catch(e){ /* ignore if gtag not ready */ }
+  try {
+    gtag('event', 'qr_redirect', {
+      'event_label': 'hhhomepage',  // ✅ Optional human-friendly name (event_label has to change for GA tracking)
+      'event_category': 'QR',       // ✅ Optional, good for grouping in GA
+      'qr_destination': DEST        // ✅ Critical for separating by URL
+    });
+  } catch(e) { /* ignore */ }
 
-    // Wait a short time to give GA a moment to send data, then redirect
-    // 600-900ms is usually enough; increase if you want more safety.
-    const REDIRECT_DELAY_MS = 100;
-    setTimeout(function(){ window.location.replace(DEST); }, REDIRECT_DELAY_MS);
-  </script>
+  const DELAY = 100; // Keep small so redirect is fast
+  setTimeout(function() {
+    window.location.replace(DEST);
+  }, DELAY);
+</script>
+
 
   <noscript>
     <!-- fallback for users with JS disabled; this will not be counted by GA -->
