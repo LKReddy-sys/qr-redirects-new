@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Redirecting…</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Replace G-XXXXXXXXXX with your GA Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GZSPR40F6T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GZSPR40F6T', { 'send_page_view': true });
+  </script>
+  <style>
+    body{font-family:Segoe UI,Roboto,Arial;margin:40px;background:#f8fafc;color:#0f172a}
+    .box{max-width:720px;margin:40px auto;padding:20px;background:#fff;border-radius:8px;border:1px solid #e6eef6}
+    a.btn{display:inline-block;padding:10px 14px;background:#2563eb;color:white;border-radius:6px;text-decoration:none}
+    small{color:#475569}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Hang on — redirecting you…</h2>
+    <p>We’re preparing the page. If you are not redirected automatically, click below.</p>
+
+    <!-- REPLACE DEST_URL with your final external URL (include UTM parameters if you want) -->
+    <p><a id="goLink" class="btn" href="https://www.happiesthealth.com/articles/food-and-nutrition/health-benefits-of-onam-sadhya">Continue</a></p>
+
+    <p><small>This redirect URL is permanent — you can use it inside a QR code.</small></p>
+  </div>
+
+  <script>
+  const DEST = document.getElementById('goLink').href;
+
+  try {
+    gtag('event', 'qr_redirect', {
+      'event_label': 'onamsadhya',  // ✅ Human-friendly name (event_label has to change for GA tracking)
+      'event_category': 'QR',       // ✅ Optional, good for grouping in GA
+      'qr_destination': DEST        // ✅ Critical for separating by URL
+    });
+  } catch(e) { /* ignore */ }
+
+  const DELAY = 100; // Keep small so redirect is fast
+  setTimeout(function() {
+    window.location.replace(DEST);
+  }, DELAY);
+</script>
+
+
+  <noscript>
+    <!-- fallback for users with JS disabled; this will not be counted by GA -->
+    <meta http-equiv="refresh" content="0; url=DEST_URL">
+  </noscript>
+</body>
+</html>
