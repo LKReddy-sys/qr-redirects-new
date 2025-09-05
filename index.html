@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Welcome</title>
+  <title>QR Code Generator</title>
 
   <!-- Google tag (gtag.js) - REPLACE the ID below if yours is different -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GZSPR40F6T"></script>
@@ -13,9 +13,336 @@
     gtag('js', new Date());
     gtag('config', 'G-GZSPR40F6T'); /* same ID here */
   </script>
+
+  <style>
+    :root { --bg:#0f172a; --panel:#111827; --muted:#e5e7eb; --accent:#22c55e; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color:#f8fafc; }
+    .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card { background: var(--panel); border: 1px solid #1f2937; border-radius: 16px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    h1 { font-size: 22px; margin: 0 0 12px; }
+    h2 { font-size: 16px; margin: 0 0 10px; color: var(--muted); font-weight: 600; }
+    label { display:block; font-size: 13px; margin: 12px 0 6px; color:#cbd5e1; }
+    input[type="text"], input[type="number"], select { width: 100%; padding:10px 12px; border-radius: 10px; border:1px solid #334155; background:#0b1220; color:#e5e7eb; }
+    input[type="color"]{ width:48px; height:36px; padding:0; border-radius:10px; border:1px solid #334155; background:#0b1220; }
+    .row { display:flex; gap:10px; align-items:center; }
+    .row > * { flex:1; }
+    .btns { display:flex; gap:10px; margin-top: 14px; }
+    button { padding:10px 14px; border:none; border-radius: 12px; font-weight: 600; cursor:pointer; }
+    .primary { background: var(--accent); color:#052e16; }
+    .ghost { background:#0b1220; color:#e5e7eb; border:1px solid #334155; }
+    #preview { display:flex; align-items:center; justify-content:center; min-height: 380px; background:#0b1220; border:1px dashed #334155; border-radius: 16px; }
+    small.muted{ color:#94a3b8; display:block; margin-top:6px; }
+    .tip { font-size: 12px; color:#a3e635; }
+    .muted-desc{ color:#9aa4b2; font-size:13px; }
+    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+  </style>
+  
+  <!-- QR Code Styling library (MIT) -->
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+
 </head>
-<body style="font-family: Arial; text-align: center; padding: 50px;">
-  <h1>Welcome to My QR Landing Page</h1>
-  <p>This is a test landing page. You can later replace this with anything you want.</p>
+<body>
+  <div class="wrap">
+    <h1>QR Code Generator — Styled + Trackable (Free)</h1>
+    <p class="tip">You can create <b>permanent</b> QR images by encoding any URL (for analytics we recommend using UTM-tagged links + Google Analytics). This tool builds the URL for you and generates styled QR images locally — no external servers required.</p>
+
+    <div class="grid">
+      <!-- Controls -->
+      <div class="card">
+        <h2>1) UTM Builder</h2>
+        <label>Base URL to send users to (example: https://example.com/page)</label>
+        <input id="baseUrl" type="text" placeholder="https://example.com/landing" />
+        <div class="row">
+          <div>
+            <label>utm_source</label>
+            <input id="utm_source" type="text" placeholder="e.g. newsletter, poster, app" />
+          </div>
+          <div>
+            <label>utm_medium</label>
+            <input id="utm_medium" type="text" placeholder="e.g. qr, email, social" />
+          </div>
+        </div>
+        <label>utm_campaign</label>
+        <input id="utm_campaign" type="text" placeholder="e.g. summer_sale_2025" />
+        <div class="row">
+          <div>
+            <label>utm_term (optional)</label>
+            <input id="utm_term" type="text" placeholder="keyword or term" />
+          </div>
+          <div>
+            <label>utm_content (optional)</label>
+            <input id="utm_content" type="text" placeholder="variation id, button text" />
+          </div>
+        </div>
+
+        <div class="btns" style="margin-top:8px;">
+          <button id="buildUtm" class="ghost">Build UTM URL</button>
+          <button id="copyUtm" class="ghost">Copy URL</button>
+        </div>
+        <small class="muted-desc">After building, the final URL will populate the <b>Data / URL</b> field below. Use that URL to generate QR codes. UTM parameters help Google Analytics identify campaign source/medium/campaign name.</small>
+
+        <hr style="margin:14px 0; border-color:#0f1a25"> 
+
+        <h2>2) QR Content & Styling</h2>
+        <label>Data / URL to encode
+          <input id="data" type="text" placeholder="Paste your final URL here (or use Build UTM)" />
+        </label>
+
+        <div class="row">
+          <div>
+            <label>Foreground</label>
+            <div class="row">
+              <input id="fgColor" type="text" placeholder="#111111" value="#111111"/>
+              <input id="fgPicker" type="color" value="#111111"/>
+            </div>
+          </div>
+          <div>
+            <label>Background</label>
+            <div class="row">
+              <input id="bgColor" type="text" placeholder="#ffffff" value="#ffffff"/>
+              <input id="bgPicker" type="color" value="#ffffff"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Dots style</label>
+            <select id="dotsType">
+              <option value="square">square</option>
+              <option value="dots">dots</option>
+            </select>
+          </div>
+          <div>
+            <label>Corner squares</label>
+            <select id="cornerSqType">
+              <option value="square">square</option>
+              <option value="extra-rounded">extra-rounded</option>
+            </select>
+          </div>
+          <div>
+            <label>Corner dots</label>
+            <select id="cornerDotType">
+              <option value="dot">dot</option>
+              <option value="square">square</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Size (px)
+              <input id="size" type="number" min="200" max="1200" step="10" value="420" />
+            </label>
+          </div>
+          <div>
+            <label>Quiet zone / border (px)
+              <input id="margin" type="number" min="0" max="50" step="1" value="4" />
+            </label>
+          </div>
+          <div>
+            <label>Error correction
+              <select id="ecLevel">
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="Q">Q</option>
+                <option value="H" selected>H</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <h2 style="margin-top:18px;">3) Logo (optional)</h2>
+        <label>Upload logo (PNG with transparency recommended)
+          <input id="logo" type="file" accept="image/*" />
+        </label>
+        <div class="row">
+          <div>
+            <label>Logo size (% of QR)
+              <input id="logoSize" type="number" min="5" max="45" value="22" />
+            </label>
+          </div>
+          <div>
+            <label>Logo padding (px)
+              <input id="logoMargin" type="number" min="0" max="40" value="6" />
+            </label>
+          </div>
+        </div>
+        <label class="row" style="align-items:center; gap:8px;">
+          <input id="hideBgDots" type="checkbox" checked /> Hide background dots behind the logo
+        </label>
+
+        <div class="btns">
+          <button id="generate" class="primary">Generate / Update</button>
+          <select id="filetype" class="ghost" style="max-width:140px;">
+            <option value="png" selected>PNG</option>
+            <option value="svg">SVG</option>
+            <option value="webp">WEBP</option>
+            <option value="jpg">JPG</option>
+          </select>
+          <button id="download" class="ghost">Download</button>
+        </div>
+        <small class="muted">Tip: If you plan to use Google Analytics (GA4) instead of Bitly, use the UTM builder above and host the final landing page with the GA tag. See the GA setup steps below the app.</small>
+      </div>
+
+      <!-- Preview -->
+      <div class="card">
+        <h2>Preview</h2>
+        <div id="preview"></div>
+        <div style="margin-top:12px;">
+          <strong>Final URL (for copying):</strong>
+          <div id="finalUrl" style="word-break:break-all;margin-top:6px;color:#cbd5e1"></div>
+        </div>
+
+        <hr style="margin:12px 0; border-color:#0f1a25"> 
+        <h2>How to track with Google Analytics (GA4) — Quick steps</h2>
+        <ol style="color:#9aa4b2">
+          <li>Create a Google account (if you don’t have one) and go to <b>analytics.google.com</b>.</li>
+          <li>Click <b>Admin &gt; Create Account</b> → name it (e.g., "QR Tracker").</li>
+          <li>Create a <b>GA4 Property</b> (default). Give site name, timezone, currency.</li>
+          <li>Under Property → <b>Data Streams</b> → Add Stream &gt; Web → enter your site URL and stream name. Create stream.</li>
+          <li>Copy the <b>Measurement ID</b> (starts with <code>G-</code>).</li>
+          <li>Place the following tag on the landing page HTML you will use as final destination (hosted online):</li>
+        </ol>
+        <pre style="background:#071024;padding:10px;border-radius:8px;color:#9ae6b4">&lt;!-- Global site tag (gtag.js) - Google Analytics --&gt;
+&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);} 
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+&lt;/script&gt;</pre>
+        <p style="color:#9aa4b2">Replace <code>G-XXXXXXXXXX</code> with your Measurement ID. Once live, GA4 Realtime and Traffic Acquisition reports will show campaign/utm values. Use <b>/stats</b> view in this tool to see quick local logs too.</p>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Helper: sanitize hex
+    const toHex = (v, fallback) => {
+      if (!v) return fallback;
+      v = v.trim();
+      if (/^#?[0-9a-fA-F]{6}$/.test(v)) return v.startsWith('#') ? v : `#${v}`;
+      return fallback;
+    };
+
+    const els = {
+      baseUrl: document.getElementById('baseUrl'),
+      utm_source: document.getElementById('utm_source'),
+      utm_medium: document.getElementById('utm_medium'),
+      utm_campaign: document.getElementById('utm_campaign'),
+      utm_term: document.getElementById('utm_term'),
+      utm_content: document.getElementById('utm_content'),
+      buildUtm: document.getElementById('buildUtm'),
+      copyUtm: document.getElementById('copyUtm'),
+
+      data: document.getElementById('data'),
+      fgText: document.getElementById('fgColor'),
+      fgPick: document.getElementById('fgPicker'),
+      bgText: document.getElementById('bgColor'),
+      bgPick: document.getElementById('bgPicker'),
+      dotsType: document.getElementById('dotsType'),
+      cornerSqType: document.getElementById('cornerSqType'),
+      cornerDotType: document.getElementById('cornerDotType'),
+      size: document.getElementById('size'),
+      margin: document.getElementById('margin'),
+      ecLevel: document.getElementById('ecLevel'),
+      logo: document.getElementById('logo'),
+      logoSize: document.getElementById('logoSize'),
+      logoMargin: document.getElementById('logoMargin'),
+      hideBgDots: document.getElementById('hideBgDots'),
+      filetype: document.getElementById('filetype'),
+      generate: document.getElementById('generate'),
+      download: document.getElementById('download'),
+      preview: document.getElementById('preview'),
+      finalUrl: document.getElementById('finalUrl')
+    };
+
+    // sync color fields
+    const sync = (a, b) => { a.addEventListener('input', () => b.value = toHex(a.value, b.value)); b.addEventListener('input', () => a.value = b.value); };
+    sync(els.fgText, els.fgPick); sync(els.bgText, els.bgPick);
+
+    // Build UTM URL
+    function buildUTMUrl(){
+      const base = (els.baseUrl.value || '').trim();
+      if(!base){ alert('Please enter a base URL'); return ''; }
+      const params = [];
+      const add = (k,v)=>{ if(v && v.trim()) params.push(`${encodeURIComponent(k)}=${encodeURIComponent(v.trim())}`); };
+      add('utm_source', els.utm_source.value);
+      add('utm_medium', els.utm_medium.value);
+      add('utm_campaign', els.utm_campaign.value);
+      add('utm_term', els.utm_term.value);
+      add('utm_content', els.utm_content.value);
+      if(params.length===0){ alert('Please enter at least one UTM parameter (source/medium/campaign)'); return ''; }
+      const sep = base.includes('?') ? '&' : '?';
+      const final = base + sep + params.join('&');
+      els.data.value = final;
+      els.finalUrl.textContent = final;
+      updateQR();
+      return final;
+    }
+
+    els.buildUtm.addEventListener('click', ()=>{ const u = buildUTMUrl(); if(u) navigator.clipboard?.writeText(u).catch(()=>{}); });
+    els.copyUtm.addEventListener('click', ()=>{ const v = els.data.value.trim(); if(!v){ alert('No URL to copy'); return; } navigator.clipboard.writeText(v).then(()=> alert('Copied URL to clipboard')).catch(()=> alert('Could not copy')) });
+
+    // Base QR instance
+    const qr = new QRCodeStyling({
+      width: parseInt(els.size.value, 10),
+      height: parseInt(els.size.value, 10),
+      type: 'svg',
+      data: '',
+      qrOptions: { errorCorrectionLevel: els.ecLevel.value, margin: parseInt(els.margin.value, 10) },
+      backgroundOptions: { color: els.bgText.value },
+      dotsOptions: { color: els.fgText.value, type: els.dotsType.value },
+      cornersSquareOptions: { color: els.fgText.value, type: els.cornerSqType.value },
+      cornersDotOptions: { color: els.fgText.value, type: els.cornerDotType.value },
+      imageOptions: { crossOrigin: 'anonymous', margin: parseInt(els.logoMargin.value, 10), imageSize: parseInt(els.logoSize.value, 10) / 100, hideBackgroundDots: els.hideBgDots.checked }
+    });
+    qr.append(els.preview);
+
+    let currentLogoDataUrl = null;
+    els.logo.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (!file) { currentLogoDataUrl = null; return; }
+      const reader = new FileReader();
+      reader.onload = () => { currentLogoDataUrl = reader.result; updateQR(); };
+      reader.readAsDataURL(file);
+    });
+
+    function updateQR(){
+      const data = els.data.value.trim();
+      els.finalUrl.textContent = data || '(no url yet)';
+      const fg = toHex(els.fgText.value, '#111111');
+      const bg = toHex(els.bgText.value, '#ffffff');
+      const size = Math.max(200, Math.min(1200, parseInt(els.size.value,10)||420));
+      const margin = Math.max(0, Math.min(50, parseInt(els.margin.value,10)||4));
+      const imageSize = Math.max(0.05, Math.min(0.45, (parseInt(els.logoSize.value,10)||22)/100));
+      const logoMargin = Math.max(0, Math.min(40, parseInt(els.logoMargin.value,10)||6));
+
+      qr.update({
+        width: size,
+        height: size,
+        data: data || ' ',
+        qrOptions: { errorCorrectionLevel: els.ecLevel.value, margin },
+        backgroundOptions: { color: bg },
+        dotsOptions: { color: fg, type: els.dotsType.value },
+        cornersSquareOptions: { color: fg, type: els.cornerSqType.value },
+        cornersDotOptions: { color: fg, type: els.cornerDotType.value },
+        image: currentLogoDataUrl || undefined,
+        imageOptions: { crossOrigin: 'anonymous', margin: logoMargin, imageSize, hideBackgroundDots: els.hideBgDots.checked }
+      });
+    }
+
+    els.generate.addEventListener('click', updateQR);
+    els.download.addEventListener('click', () => { const ext = els.filetype.value; qr.download({ name: 'qr', extension: ext }); });
+
+    // Initialize
+    els.data.value = '';
+    els.baseUrl.value = '';
+    updateQR();
+
+  </script>
 </body>
 </html>
