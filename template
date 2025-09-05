@@ -5,12 +5,12 @@
   <title>Redirecting…</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <!-- Replace G-XXXXXXXXXX with your GA Measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GZSPR40F6T"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX', { 'send_page_view': true });
+    gtag('config', 'G-GZSPR40F6T', { 'send_page_view': true });
   </script>
   <style>
     body{font-family:Segoe UI,Roboto,Arial;margin:40px;background:#f8fafc;color:#0f172a}
